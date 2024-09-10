@@ -36,11 +36,11 @@ class MyAppState extends ChangeNotifier {
   
   var favorites = <WordPair>[];
   
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleFavorite(WordPair pair) {
+    if (favorites.contains(pair)) {
+      favorites.remove(pair);
     } else {
-      favorites.add(current);
+      favorites.add(pair);
     }
     notifyListeners();
   }
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       page = GeneratorPage();
       break;
     case 1:
-      page = Placeholder();
+      page = FavoritesPage();
       break;
     case 2:
       page = Placeholder();
@@ -122,6 +122,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class FavoritesPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favoritesList = appState.favorites;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Favoritos'),
+            for (var fav in favoritesList)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(fav.asString),
+                  SizedBox(width: 15),
+                  IconButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.red.shade300),
+                    iconColor: WidgetStatePropertyAll(Colors.white),
+                  ),
+                  onPressed: () {
+                    appState.toggleFavorite(fav);
+                  },
+                  icon: Icon(Icons.delete),
+            )  
+          ],
+        ),
+      ],
+    );
+
+  }
+}
+
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -146,7 +180,7 @@ class GeneratorPage extends StatelessWidget {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.toggleFavorite();
+                  appState.toggleFavorite(pair);
                 },
                 icon: Icon(icon),
                 label: Text('Like'),
