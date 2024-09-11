@@ -32,10 +32,16 @@ jobs:
     if: ${{ needs.test.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           ref: production
-      - name: Deploy to production
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Merge changes and deploy to production
         run: |
-          git merge development
+          git checkout production
+          git merge origin/development
           git push origin production
