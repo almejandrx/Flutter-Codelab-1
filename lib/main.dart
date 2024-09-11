@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       page = Placeholder();
       break;
     case 3:
-      page = Placeholder();
+      page = AboutPage();
       break;    
     default:
       throw UnimplementedError('no widget for $selectedIndex');
@@ -118,6 +118,30 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       }
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Acerca de la aplicación',
+        style: TextStyle(
+          fontSize: 28,
+          color: Colors.black,
+          letterSpacing: 1,
+        ),),
+        SizedBox(height: 10),
+        Text('Aplicación de prueba para el codelab 1',
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
+          letterSpacing: 1,
+        ),),
+      ]
     );
   }
 }
