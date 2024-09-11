@@ -1,6 +1,5 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -190,7 +189,11 @@ class FavoritesPage extends StatelessWidget{
               SizedBox(width: 15),
               Container(
                 width: 40,
-                height: 40,              
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(50),
+                ),
                 child: IconButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.transparent),
