@@ -127,32 +127,113 @@ class FavoritesPage extends StatelessWidget{
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var favoritesList = appState.favorites;
+    var oneFav = 'Tienes un total de ${appState.favorites.length} palabra favorita';
+    final theme = Theme.of(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Favoritos'),
-            for (var fav in favoritesList)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(fav.asString),
-                  SizedBox(width: 15),
-                  IconButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.red.shade300),
-                    iconColor: WidgetStatePropertyAll(Colors.white),
-                  ),
-                  onPressed: () {
-                    appState.toggleFavorite(fav);
-                  },
-                  icon: Icon(Icons.delete),
-            )  
-          ],
+    if(appState.favorites.isEmpty) {
+      return Center(
+        child: Text('Aún no hay favoritos en la lista',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+            letterSpacing: 1,
+          ),),
+        );
+    }
+
+    else if(appState.favorites.length == 1) {
+      return Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Text(oneFav,
+              style: TextStyle(
+                fontSize: 20, 
+                color: Colors.black,
+                letterSpacing: 1,
+              ),),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(favoritesList.first.asString,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                color: theme.primaryColor,
+              ),),
+              SizedBox(width: 15),
+              Container(
+                width: 40,
+                height: 40,              
+                child: IconButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                  iconColor: WidgetStatePropertyAll(Colors.red.shade300),
+                  iconSize: WidgetStatePropertyAll(25),              
+                ),
+                onPressed: () {
+                  appState.toggleFavorite(favoritesList.first);
+                },
+                icon: Icon(Icons.delete),
+                            ),
+              ),
+              SizedBox(height: 30),           
+          ],          
         ),
+        ] ,
+        );
+    }
+
+    else {
+      return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          child: Text('Tienes un total de '
+          '${appState.favorites.length} palabras favoritas',
+            style: TextStyle(
+              fontSize: 20, 
+              color: Colors.black,
+              letterSpacing: 1,
+            ),),
+        ),
+        SizedBox(height: 10),
+        for (var fav in favoritesList)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(fav.asString,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                color: theme.primaryColor,
+              ),),
+              SizedBox(width: 15),
+              Container(
+                width: 40,
+                height: 40,              
+                child: IconButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                  iconColor: WidgetStatePropertyAll(Colors.red.shade300),
+                  iconSize: WidgetStatePropertyAll(25),              
+                ),
+                onPressed: () {
+                  appState.toggleFavorite(fav);
+                },
+                icon: Icon(Icons.delete),
+                            ),
+              ),
+              SizedBox(height: 30),           
+          ],          
+        ),
+        
       ],
     );
 
+    }
   }
 }
 
