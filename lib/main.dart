@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
         home: MyHomePage(),
       ),
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       page = FavoritesPage();
       break;
     case 2:
-      page = Placeholder();
+      page = SettingsPage();
       break;
     case 3:
       page = AboutPage();
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Expanded(
                 child: Container(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Colors.grey.shade200,
                   child: page,
                 ),
               ),
@@ -117,6 +117,39 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       }
+    );
+  }
+}
+
+class SettingsPage extends StatefulWidget {
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  Color _backgroundColor = Colors.deepPurple.shade300;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: _backgroundColor,
+      appBar: AppBar(
+        title: Text('Configuración'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                   _backgroundColor = _backgroundColor == Colors.white ? Colors.blueGrey : Colors.white;
+                });
+              }, child: Text('Cambiar color de fondo'),)
+          ],
+        ),
+      ),
     );
   }
 }
@@ -150,7 +183,7 @@ class FavoritesPage extends StatelessWidget{
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var favoritesList = appState.favorites;
-    var oneFav = 'Tienes un total de ${appState.favorites.length} palabra favorita';
+    var oneFav = 'Tienes ${appState.favorites.length} palabra favorita';
     final theme = Theme.of(context);
 
     if(appState.favorites.isEmpty) {
@@ -218,7 +251,7 @@ class FavoritesPage extends StatelessWidget{
       children: [
         Container(
           padding: const EdgeInsets.all(20),
-          child: Text('Tienes un total de '
+          child: Text('Tienes '
           '${appState.favorites.length} palabras favoritas',
             style: TextStyle(
               fontSize: 20, 
