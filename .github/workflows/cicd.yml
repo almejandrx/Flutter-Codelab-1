@@ -1,13 +1,16 @@
-name: CI/CD
+name: CI/CD and Auto Merge test
 
 on:
   pull_request:
     branches: 
       - production
+  check_suite:
+    types:
+      - completed
 
 jobs:
   test:
-    name: Run Test
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +31,23 @@ jobs:
       - name: Run Tests Folder
         run: flutter test 
 
-  deploy:
-    needs: test
-    if: ${{ needs.test.result == 'success' }}
+  auto_merge:
+    if: github.event.check_suite.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          ref: production
+        - name: Checkout repository
+          uses: actions/checkout@v2
+    
+        - name: Install GitHub CLI
+          run: sudo apt-get install gh
+    
+        - name: Merge pull request
+          run: |
+            PR_NUMBER=$(gh pr list --json number --jq '.[0].number')
+            if [ -n "$PR_NUMBER" ]; then
+                gh pr merge $PR_NUMBER --merge --admin
+            else
+                echo "No pull requests found."
+            fi
+            env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
