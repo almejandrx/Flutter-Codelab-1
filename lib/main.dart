@@ -188,7 +188,7 @@ class FavoritesPage extends StatelessWidget{
 
     if(appState.favorites.isEmpty) {
       return Center(
-        child: Text('Aún no tienes palabras favoritas',
+        child: Text('No has agregado palabras a favoritos',
           style: TextStyle(
             fontSize: 20,
             color: Colors.black,
