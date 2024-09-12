@@ -1,9 +1,9 @@
-name: CI/CD
+name: Pull Testing
 
 on:
-  pull_request:
-    branches: 
-      - production
+  push:
+    branches:
+      - development
 
 jobs:
   test:
@@ -17,7 +17,7 @@ jobs:
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.2' 
+          flutter-version: '3.24.2'
 
       - name: Install dependencies
         run: flutter pub get
@@ -26,4 +26,4 @@ jobs:
         run: flutter analyze
 
       - name: Run Tests Folder
-        run: flutter test test/widget_test_failed.dart
+        run: flutter test test/widget_test.dart

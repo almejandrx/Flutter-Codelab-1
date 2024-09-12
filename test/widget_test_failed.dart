@@ -19,4 +19,13 @@ void main() {
     final MaterialApp app = tester.widget(find.byType(MaterialApp));
     expect(app.title, 'Namer App');
   });
+
+ testWidgets('Intentional failing test', (WidgetTester tester) async {
+    // Build the MyApp widget
+    await tester.pumpWidget(MyApp());
+
+    // Verify that the title is 'Incorrect Title' (this will fail)
+    final MaterialApp app = tester.widget(find.byType(MaterialApp));
+    expect(app.title, 'Incorrect Title');
+  });
 }
