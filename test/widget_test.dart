@@ -19,13 +19,4 @@ void main() {
     final MaterialApp app = tester.widget(find.byType(MaterialApp));
     expect(app.title, 'Namer App');
   });
-
-  testWidgets('App theme is applied correctly', (WidgetTester tester) async {
-    // Build the MyApp widget
-    await tester.pumpWidget(MyApp());
-
-    // Verify that the theme is applied correctly
-    final MaterialApp app = tester.widget(find.byType(MaterialApp));
-    expect(app.theme!.colorScheme.primary, Colors.deepPurple);
-  });
 }

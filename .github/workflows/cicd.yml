@@ -1,12 +1,13 @@
 name: CI/CD
 
 on:
-  push:
-    branches: [ development ]
+  pull_request:
+    branches: 
+      - production
 
 jobs:
   test:
-    name: Test
+    name: Run Test
     runs-on: ubuntu-latest
 
     steps:
@@ -24,18 +25,15 @@ jobs:
       - name: Analyze project source
         run: flutter analyze
 
-      - name: Run tests
-        run: flutter test
+      - name: Run Tests Folder
+        run: flutter test 
 
   deploy:
     needs: test
     if: ${{ needs.test.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           ref: production
-      - name: Deploy to production
-        run: |
-          git merge development
-          git push origin production
