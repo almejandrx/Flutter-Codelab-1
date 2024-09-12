@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Run Test
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,14 +26,4 @@ jobs:
         run: flutter analyze
 
       - name: Run Tests Folder
-        run: flutter test 
-
-  deploy:
-    needs: test
-    if: ${{ needs.test.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          ref: production
+        run: flutter test
